@@ -67,6 +67,115 @@ Webcam → Motion Detection → Claude Vision → Price Lookup → OBS Browser S
 5. `server.py` serves the result at `/api/current-card`
 6. The OBS browser source at `localhost:5050/overlay` polls every 500ms and animates the card info in
 
+## Examples & Demo
+
+### Demo mode (no webcam or API key needed)
+Cycles through one card per game type in the overlay every 5 seconds. Use this to test your OBS layout before going live.
+
+```bash
+python demo.py
+```
+
+Then open `http://localhost:5050/overlay` in a browser or OBS Browser Source. Output:
+
+```
+=======================================================
+  Card Scanner — Demo Mode
+=======================================================
+  Overlay URL:  http://localhost:5050/overlay
+  API URL:      http://localhost:5050/api/current-card
+=======================================================
+
+Cycling through 8 example cards (5s each)...
+
+  [1/8] NHL      Connor McDavid                   $850.00
+  [2/8] NBA      Victor Wembanyama                $120.00
+  [3/8] NFL      Patrick Mahomes                  $210.00
+  [4/8] MLB      Shohei Ohtani                    $195.00
+  [5/8] Pokemon  Charizard                        $420.00
+  [6/8] MTG      Black Lotus                      $40,000.00
+  [7/8] YuGiOh   Blue-Eyes White Dragon           $850.00
+  [8/8] ---      (no card)
+```
+
+### Scan a saved image (test with your own card photos)
+Take a photo of any card on your phone, transfer it, and run:
+
+```bash
+python scan_image.py path/to/card.jpg
+```
+
+Example output — Sports card:
+```
+Loading image: mcdavid.jpg
+Identifying card with Claude Vision...
+
+==================================================
+  CARD IDENTIFIED
+==================================================
+  Game:       NHL
+  Name:       Connor McDavid
+  Set:        Upper Deck Young Guns
+  Year:       2015-16
+  Variant:    RC
+  Confidence: 97%
+
+Looking up price...
+==================================================
+  PRICE RESULT
+==================================================
+  Price:      $850.00
+==================================================
+```
+
+Example output — Pokémon card:
+```
+Loading image: charizard.jpg
+Identifying card with Claude Vision...
+
+==================================================
+  CARD IDENTIFIED
+==================================================
+  Game:       Pokemon
+  Name:       Charizard
+  Set:        Base Set
+  Year:       1999
+  Variant:    Holo
+  Confidence: 98%
+
+Looking up price...
+==================================================
+  PRICE RESULT
+==================================================
+  Price:      $420.00
+==================================================
+```
+
+Force a game type (skips auto-detection):
+```bash
+python scan_image.py card.jpg --game pokemon
+python scan_image.py card.jpg --game mtg
+python scan_image.py card.jpg --game sports
+```
+
+Get raw JSON output:
+```bash
+python scan_image.py card.jpg --json
+```
+```json
+{
+  "detected": true,
+  "game": "NHL",
+  "name": "Connor McDavid",
+  "set": "Upper Deck Young Guns",
+  "year": "2015-16",
+  "variant": "RC",
+  "confidence": 0.97,
+  "price": 850.0,
+  "price_label": "$850.00"
+}
+```
+
 ## Testing
 
 Install test dependencies then run the full suite:
