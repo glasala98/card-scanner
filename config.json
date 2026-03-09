@@ -1,0 +1,15 @@
+{
+  "webcam_index": 0,
+  "mode": "auto",
+  "carddb_api_url": "https://southwestsportscards.ca/api",
+  "overlay_port": 5050,
+  "motion_threshold": 25,
+  "scan_cooldown_seconds": 3,
+  "cache_ttl_seconds": 30,
+  "overlay_display_seconds": 8,
+  "claude_confidence_threshold": 0.8,
+  "api_keys": {
+    "anthropic": "env:ANTHROPIC_API_KEY",
+    "pokemontcg": ""
+  }
+}
