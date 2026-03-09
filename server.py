@@ -159,6 +159,15 @@ def api_current_card():
     return jsonify(data)
 
 
+@app.route("/api/inject", methods=["POST"])
+def api_inject():
+    """Inject card data directly into the overlay (used by scan_youtube --demo)."""
+    from flask import request
+    payload = request.get_json(force=True, silent=True) or {}
+    scanner.update_state(payload)
+    return jsonify({"ok": True})
+
+
 if __name__ == "__main__":
     port = CONFIG.get("overlay_port", 5050)
     print(f"Overlay server running at http://localhost:{port}/overlay")

@@ -4,3 +4,5 @@ flask
 requests
 pillow
 numpy
+yt-dlp
+python-dotenv

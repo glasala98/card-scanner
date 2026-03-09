@@ -98,6 +98,49 @@ Cycling through 8 example cards (5s each)...
   [8/8] ---      (no card)
 ```
 
+### Scan a YouTube video
+Automatically downloads a video, samples frames at intervals, and identifies every card Claude can find.
+
+```bash
+python scan_youtube.py "https://www.youtube.com/watch?v=XXXXXXXXXXX"
+```
+
+Sample every 3 seconds between the 1-2 minute mark:
+```bash
+python scan_youtube.py "https://youtu.be/..." --interval 3 --start 60 --end 120
+```
+
+Push each detected card live to the OBS overlay as it scans (run `server.py` first):
+```bash
+python scan_youtube.py "https://youtu.be/..." --demo
+```
+
+Example output:
+```
+Downloading video: https://youtu.be/...
+Video duration: 312s | Sampling 0s → 312s every 5s
+Estimated frames to check: 62
+
+[0:05] Scanning...  no card (12%)
+[0:10] Scanning...  NHL — Connor McDavid (97%)
+         Price: $850.00
+[0:25] Scanning...  Pokemon — Charizard (98%)
+         Price: $420.00
+[1:02] Scanning...  MTG — Black Lotus (91%)
+         Price: $40,000.00
+
+=======================================================
+  SCAN COMPLETE — 3 card(s) detected
+=======================================================
+  Time   Game      Card                            Price
+  -----  --------  ------------------------------  ----------
+   0:10  NHL       Connor McDavid                    $850.00
+   0:25  Pokemon   Charizard                         $420.00
+   1:02  MTG       Black Lotus                    $40,000.00
+```
+
+Good channels to test with: search **"sports card pack opening"**, **"pokemon pack opening"**, **"MTG pack opening"** on YouTube.
+
 ### Scan a saved image (test with your own card photos)
 Take a photo of any card on your phone, transfer it, and run:
 
